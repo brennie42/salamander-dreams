@@ -48,7 +48,7 @@ function Particle(posx,posy,angle,magnitude,id,type){
 	this.move = function(){};
 	this.id = id;
 	this.draw = function(){};
-	this.collide=function(){};
+	this.collide = function(){};
 this.velocity={angle:angle,magnitude:magnitude};
 	this.velocity.angle = angle;
 	this.velocity.magnitude = magnitude;
@@ -56,9 +56,9 @@ this.velocity={angle:angle,magnitude:magnitude};
 
 function SpaceShip(posx,posy,angle,magnitude,id,spriteStartX,spriteStartY,spriteStopX,spriteStopY){
 	Particle.call(this,posx,posy,angle,magnitude,id,"spaceship");
-	this.image= { src:spriteSheet,start:{x:spriteStartX,y:spriteStartY},stop:{x:spriteStopX,y:spriteStopY},dimensions:{width:spriteStopX-spriteStartX,height:spriteStopY-spriteStartY}};
+	this.image = { src:spriteSheet,start:{x:spriteStartX,y:spriteStartY},stop:{x:spriteStopX,y:spriteStopY},dimensions:{width:spriteStopX-spriteStartX,height:spriteStopY-spriteStartY}};
 	this.cooldown = 0;
-	this.size=5;
+	this.size = 5;
 	this.velocity.rotationSpeed=0;
 	this.velocity.x = 0;
 	this.velocity.y = 0;
@@ -221,14 +221,14 @@ function arrayOfParticles(number){
 
 function startGame(){
 	
-	players[0]= new SpaceShip(c.width/2, c.height/2, 0,0,1,0,0,25,25);
+	players[0] = new SpaceShip(c.width/2, c.height/2, 0,0,1,0,0,25,25);
 /*for(var i=0;i<1000	0;i++){
 	players[i]= new SpaceShip(c.width/2, c.height/2, 0,0,1,0,0,25,25);
 }*/
 	arrayOfParticles(5);
 	
 };
-var currentfps=0;
+var currentfps = 0;
 var time = {
 	startTime: 0,
 	dtSet: function(){
@@ -300,18 +300,32 @@ function render(){
 			asteroids.splice(i,1);
 		};
 	};
-	if(players.length<1){
-			if(KeysPressed.space){
-		startGame();
-		KeysPressed.space=false;
-	}
+	if(players.length<1 and asteroids.length<0){
+		if(KeysPressed.space){
+			startGame();
+			KeysPressed.space=false;
+		}
 		ctx.font = "100px Arial";
-		ctx.fillText("You Lose",c.width/2,c.height/2);
+		ctx.fillText("You Lose",c.width/4,c.height/2+50);
+		ctx.fillText("Press Space To Start A New Game.",c.width/4,c.height/2-50);
 	}
-	if(asteroids.length<1){
+	if(asteroids.length<1 and players.length>0){
+		if(KeysPressed.space){
+			startGame();
+			KeysPressed.space=false;
+		}
 		ctx.font = "100px Arial";
-		ctx.fillText("You Win",c.width/2,c.height/2);
+		ctx.fillText("You Win",c.width/4,c.height/2+50);
+		ctx.fillText("Press Space To Start A New Game.",c.width/4,c.height/2-50);
 	};
+	if(asteroids.length<1 and players.length<1){
+		if(KeysPressed.space){
+			startGame();
+			KeysPressed.space=false;
+		}
+		ctx.font = "100px Arial";
+		ctx.fillText("Press Space To Start A New Game.",c.width/4,c.height/2);
+	
 		time.dtSet();
 };
 function Animationloop(){
